@@ -80,6 +80,12 @@ public class AdministratorController {
 		if (result.hasErrors()) {
 			return toInsert(form, model);
 		}
+		// パスワードと確認用パスワードが一致していない場合
+		if (!form.getPassword().equals(form.getConfirmationPassword())) {
+			model.addAttribute("passErrorMessage", "パスワードと確認用パスワードが一致しません");
+			return toInsert(form, model);
+		}
+
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
@@ -87,10 +93,9 @@ public class AdministratorController {
 		if (administratorService.findByMailAddress(administrator.getMailAddress()) != null) {
 			model.addAttribute("errorMessage", "メールアドレスが重複しています");
 			return toInsert(form, model);
-		} else {
-			administratorService.insert(administrator);
-			return "redirect:/";
 		}
+		administratorService.insert(administrator);
+		return "redirect:/";
 		// return "employee/list";
 	}
 
