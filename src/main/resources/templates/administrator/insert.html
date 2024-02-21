@@ -87,6 +87,11 @@
                       >
                         メールアドレスを入力してください
                       </label>
+                      <div th:if="${errorMessage}" class="alert alert-danger">
+                        <p th:text="${errorMessage}">
+                          メールアドレスがすでに重複しています
+                        </p>
+                      </div>
                       <input
                         type="text"
                         name="mailAddress"
