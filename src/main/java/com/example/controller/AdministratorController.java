@@ -89,7 +89,7 @@ public class AdministratorController {
 			return toInsert(form, model);
 		} else {
 			administratorService.insert(administrator);
-			return "redirect:/administrator/login";
+			return "redirect:/";
 		}
 		// return "employee/list";
 	}
