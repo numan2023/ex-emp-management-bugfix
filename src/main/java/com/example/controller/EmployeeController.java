@@ -92,4 +92,31 @@ public class EmployeeController {
 		employeeService.update(employee);
 		return "redirect:/employee/showList";
 	}
+
+		/////////////////////////////////////////////////////
+	// ユースケース：従業員名で曖昧検索する
+	/////////////////////////////////////////////////////
+	/**
+	 * 従業員名で曖昧検索を行います.
+	 * @param name 検索したい従業員名
+	 * @return 従業員一覧画面
+	 */
+	@GetMapping("/findByLikeName")
+	public String findByLikeName(String name, Model model) {
+		// パラメーターnameがnullの場合は全件検索を行う
+		if (name == null) {
+			return showList(model);
+		} else {
+			List<Employee> employeeList = employeeService.findByLikeName(name);
+			// 検索結果が0件の場合は、0件のメッセージとともに全件検索を行う
+			if (employeeList.size() == 0) {
+				model.addAttribute("notFoundMessage", "１件もありませんでした");
+				return showList(model);
+			} else {
+				model.addAttribute("employeeList", employeeList);
+			}
+			return "employee/list";
+		}
+	}
+
 }
