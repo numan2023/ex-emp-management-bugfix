@@ -1,12 +1,18 @@
 package com.example.domain;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 /**
  * 管理者情報を表すドメイン.
  * 
  * @author igamasayuki
  * 
  */
-public class Administrator {
+public class Administrator implements UserDetails{
 	/** id(主キー) */
 	private Integer id;
 	/** 名前 */
@@ -74,5 +80,45 @@ public class Administrator {
 		return "Administrator [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
 				+ "]";
 	}
+
+	@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // この例では、ユーザーには特定の権限がないと仮定しています。
+        // 必要に応じて、適切な権限を返すようにこのメソッドを修正してください。
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getUsername() {
+        return mailAddress;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // この例では、アカウントが有効であると仮定しています。
+        // 必要に応じて、適切な値を返すようにこのメソッドを修正してください。
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // この例では、アカウントがロックされていないと仮定しています。
+        // 必要に応じて、適切な値を返すようにこのメソッドを修正してください。
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // この例では、資格情報が有効であると仮定しています。
+        // 必要に応じて、適切な値を返すようにこのメソッドを修正してください。
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // この例では、ユーザーが有効であると仮定しています。
+        // 必要に応じて、適切な値を返すようにこのメソッドを修正してください。
+        return true;
+    }
 
 }
